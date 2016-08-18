@@ -22,12 +22,12 @@ const (
 	eDelay = 70 * time.Microsecond
 	
 	//BCM http://pinout.xyz/
-	lcdRS = 6
-	lcdE  = 5
-	lcdD4 = 25
-	lcdD5 = 24
-	lcdD6 = 23
-	lcdD7 = 17
+	lcdRS = 7
+	lcdE  = 8
+	lcdD4 = 21
+	lcdD5 = 20
+	lcdD6 = 16
+	lcdD7 = 12
 
 	//Define some device constants
 	lcdWidth = 16 // Maximum characters per line
@@ -329,7 +329,7 @@ func main() {
 var disp Display
 log.Printf("main: starting lcd")
 disp = NewLcd()
-disp.Display("     \n     yeah Go!")
+disp.Display("Coucou     \n     yeah Go!")
 defer func() {
   if e := recover(); e != nil {
     log.Printf("Recover: %v", e)
