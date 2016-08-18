@@ -123,7 +123,7 @@ func initPin(pin int) (p rpio.Pin) {
 } //initPin(pin int) (p rpio.Pin)
 
 func (l *Lcd) reset() {
-	log.Printf("Lcd.reset()")
+	//log.Printf("Lcd.reset()")
 	//l.writeByte(0x33, lcdCmd) // 110011 Initialise
 	l.write4Bits(0x3, lcdCmd) // 110011 Initialise
 	time.Sleep(5 * time.Millisecond)
@@ -142,7 +142,7 @@ func (l *Lcd) reset() {
 	l.writeByte(0x06, lcdCmd) // 000110 Cursor move direction
 	l.writeByte(0x01, lcdCmd) // 000001 Clear display
 	time.Sleep(5 * time.Millisecond)
-	log.Printf("Lcd.reset() finished")
+	//log.Printf("Lcd.reset() finished")
 } //reset()
 
 func (l *Lcd) close() error {
