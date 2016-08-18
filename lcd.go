@@ -1,6 +1,8 @@
 package LCD
 
 import (
+	"errors"
+	"fmt"
 	"log"
 	"strings"
 	"sync"
@@ -143,14 +145,12 @@ func (l *Lcd) reset() {
 	log.Printf("Lcd.reset() finished")
 } //reset()
 
-func (l *Lcd) close() {
+func (l *Lcd) close() error {
 	l.Lock()
 	defer l.Unlock()
 
-	log.Printf("Lcd.close() active: %v", l.active)
-
 	if !l.active {
-		return
+		return errors.New(fmt.Sprintf("Lcd.close() already close: %v", l.active))
 	}
 
 	l.writeByte(lcdLine1, lcdCmd)
@@ -177,6 +177,7 @@ func (l *Lcd) close() {
 	l.active = false
 	close(l.msg)
 	close(l.end)
+	return nil
 } //close()
 
 // writeByte send byte to lcd
@@ -285,15 +286,15 @@ func (l *Lcd) write4Bits(bits uint8, characterMode bool) {
 	time.Sleep(eDelay)
 } //write4Bits(bits uint8, characterMode bool)
 
-func (l *Lcd) display(msg string) {
+func (l *Lcd) display(msg string) error {
 	l.Lock()
 	defer l.Unlock()
 
 	if !l.active {
-		return
+		return errors.New(fmt.Sprintf("Lcd.display() allready close : %v", l.active))
 	}
 
-	log.Printf("Lcd.display('%#v')", msg)
+	//log.Printf("Lcd.display('%#v')", msg)
 
 	for line, m := range strings.Split(msg, "\n") {
 		if len(m) < lcdWidth {
@@ -314,12 +315,13 @@ func (l *Lcd) display(msg string) {
 			l.line2 = m
 			l.writeByte(lcdLine2, lcdCmd)
 		default:
-			log.Printf("Lcd.display: to many lines %d: '%v'", line, m)
-			return
+			return errors.New(fmt.Sprintf("Lcd.display: to many lines %d: '%v'", line, m))
 		}
 
 		for i := 0; i < lcdWidth; i++ {
 			l.writeByte(byte(m[i]), lcdChr)
 		}
 	}
+
+	return nil
 } //display(msg string)
