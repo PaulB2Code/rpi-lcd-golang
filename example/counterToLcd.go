@@ -31,7 +31,7 @@ func main() {
 	for {
 		disp.Display(msg)
 		time.Sleep(1 * time.Second)
-		i = 0
-		msg = fmt.Sprintf("Count %v at \n%v", i, time.Now())
+		i++
+		msg = fmt.Sprintf("Count %v at \n%v", i, time.Now().Format("02 Jan 15:04:05"))
 	}
 }
