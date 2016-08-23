@@ -87,7 +87,7 @@ func NewLcd() (l *Lcd) {
 		msg:    make(chan string),
 		end:    make(chan bool),
 	}
-	l.reset()
+	l.Reset()
 
 	go func() {
 		for {
@@ -122,8 +122,8 @@ func initPin(pin int) (p rpio.Pin) {
 	return
 } //initPin(pin int) (p rpio.Pin)
 
-func (l *Lcd) reset() {
-	//log.Printf("Lcd.reset()")
+func (l *Lcd) Reset() {
+	//log.Printf("Lcd.Reset()")
 	//l.writeByte(0x33, lcdCmd) // 110011 Initialise
 	l.write4Bits(0x3, lcdCmd) // 110011 Initialise
 	time.Sleep(5 * time.Millisecond)
@@ -142,8 +142,8 @@ func (l *Lcd) reset() {
 	l.writeByte(0x06, lcdCmd) // 000110 Cursor move direction
 	l.writeByte(0x01, lcdCmd) // 000001 Clear display
 	time.Sleep(5 * time.Millisecond)
-	//log.Printf("Lcd.reset() finished")
-} //reset()
+	//log.Printf("Lcd.Reset() finished")
+} //Reset()
 
 func (l *Lcd) close() error {
 	l.Lock()
